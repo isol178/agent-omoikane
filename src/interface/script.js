@@ -1,4 +1,18 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+    let config = { llmModel: 'gpt-4o-mini' };
+    try {
+        // Use relative path "./config.json" for clarity.
+        const configResponse = await fetch('./config.json');
+        if (configResponse.ok) {
+            config = await configResponse.json();
+            console.log("Config loaded successfully:", config);
+        } else {
+            console.error("Failed to load config.json, status:", configResponse.status);
+        }
+    } catch (error) {
+        console.error('Error loading config, using default:', error);
+    }
+
     const sendButton = document.getElementById('send-button');
     const userInput = document.getElementById('user-input');
     const messages = document.getElementById('messages');
@@ -32,11 +46,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function fetchAIResponse() {
-        // Ensure a system prompt is present for context if history is empty
+        // Ensure a system prompt is present if needed
         if (conversationHistory.length === 0 || (conversationHistory.length === 1 && conversationHistory[0].role !== 'system')) {
             conversationHistory.unshift({ role: 'system', content: "You are a helpful assistant." });
         }
-        const apiKey = process.env.OPEN_AI_API_KEY; // Loaded from .env file
+        const apiKey = config.openAiApiKey; // Loaded from config file
+        if (!apiKey || apiKey === "YOUR_API_KEY") {
+            console.error("Invalid API Key: please set a valid openAiApiKey in config.json.");
+            addMessage('AI', 'Error: Missing or invalid API Key in configuration.', apiKey);
+            return;
+        }
         const apiUrl = 'https://api.openai.com/v1/chat/completions';
 
         try {
@@ -47,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     'Authorization': `Bearer ${apiKey}`
                 },
                 body: JSON.stringify({
-                    model: 'gpt-4o-mini',
+                    model: config.llmModel,
                     messages: conversationHistory,
                     max_tokens: 150,
                     temperature: 0.7

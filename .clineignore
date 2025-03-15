@@ -1,0 +1,84 @@
+# .clineignore - Clineが無視すべきファイルやディレクトリのパターン
+
+# プライバシー関連 - 機密情報を含むファイル
+.env
+.env.*
+*.pem
+*.key
+*credentials*
+*secret*
+*password*
+*token*
+src/interface/config.json
+
+# 大きなディレクトリ - パフォーマンス向上のため
+node_modules/
+vendor/
+dist/
+build/
+.git/
+**/bin/
+**/obj/
+**/target/
+**/.terraform/
+
+# キャッシュとログ
+*.log
+logs/
+tmp/
+temp/
+.cache/
+**/__pycache__/
+**/.pytest_cache/
+**/.coverage
+**/.nyc_output/
+
+# IDE設定
+.vscode/
+.idea/
+*.iml
+*.suo
+*.user
+*.sublime-*
+*.swp
+*.swo
+
+# OS固有のファイル
+.DS_Store
+Thumbs.db
+desktop.ini
+*~
+
+# バイナリファイルと生成されたファイル
+*.exe
+*.dll
+*.so
+*.dylib
+*.obj
+*.o
+*.a
+*.lib
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+*.class
+
+# 画像と大きなメディアファイル
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.ico
+*.svg
+*.mp3
+*.mp4
+*.mov
+*.avi
+
+# プロジェクト固有のファイル（必要に応じて調整）
+test/fixtures/
+docs/
+examples/
