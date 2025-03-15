@@ -9,6 +9,7 @@
 *secret*
 *password*
 *token*
+src/interface/config.json
 
 # 大きなディレクトリ - パフォーマンス向上のため
 node_modules/
