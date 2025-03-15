@@ -1,0 +1,77 @@
+clinerules
+
+Our Guiding Principles: Crafting Maintainable, Readable Python Code
+This document establishes our comprehensive Python coding style standards, designed for long-term project health and ease of collaboration. We prioritize clear documentation, consistent formatting, and robust testing to ensure our code remains understandable and maintainable.
+
+I. Documentation Excellence: The Foundation of Understanding
+We believe that well-documented code is essential. Our docstrings will follow a strict, yet clear standard:
+ * Style: We adopt the Google docstring style for its clarity and widespread acceptance.
+ * Line Length: Docstring lines will not exceed 88 characters, promoting readability.
+ * Type Hints: We enforce type hints to enhance code clarity and enable static analysis.
+ * Parameter Descriptions: Every parameter must have a detailed description.
+ * Return Descriptions: Return values must be clearly explained.
+ * Examples: We require practical examples to demonstrate usage.
+ * Version Tracking: New features must include the version they were introduced.
+ * Notes & Warnings: Important notes and potential warnings are mandatory.
+ * Cross-References: We encourage references to related functions or modules.
+ * Deprecation: Warnings for deprecated features will be enabled.
+
+II. Code Formatting: Consistency and Clarity
+Consistent formatting is vital for readability. We adhere to the following rules:
+ * Line Length: Code lines will not exceed 88 characters.
+ * Indentation: We use 4 spaces for indentation.
+ * Spaces vs. Tabs: We exclusively use spaces for indentation.
+ * Function Length: Functions should ideally be kept under 50 lines.
+ * Complexity: The cyclomatic complexity of functions will be limited to 10.
+
+III. Naming Conventions: Establishing a Common Language
+Consistent naming conventions make code more intuitive:
+ * Functions: Use snake_case.
+ * Classes: Use PascalCase.
+ * Constants: Use UPPER_SNAKE_CASE.
+ * Variables: Use snake_case.
+ * Private Members: Prefix with an underscore (_).
+ * Test Functions: Prefix with test_.
+
+IV. Import Management: Organization and Efficiency
+We maintain organized and efficient import statements:
+ * Sorting: Imports are sorted alphabetically.
+ * Grouping: Imports are grouped by:
+   * Standard Library
+   * Third-Party Libraries
+   * Local Modules
+ * Line Length: Import lines will not exceed 88 characters.
+ * Multiline Imports: Multiline imports are permitted for clarity.
+
+V. Testing: Ensuring Robustness and Reliability
+Rigorous testing is a cornerstone of our development process:
+ * Doctests & Unit Tests: Both doctests and unit tests are required.
+ * Coverage: We aim for a minimum code coverage of 80%.
+ * Test Creation: Tests are mandatory for new and modified code.
+ * Pre-Commit Testing: Tests must pass before each commit.
+ * Test Documentation: Test code must be well-documented.
+ * Naming: Tests follow the test_{function_name}_{scenario} convention.
+ * Edge Cases: Edge case testing is mandatory.
+ * Parameterized Tests: Parameterized tests are preferred.
+ * Mocking: External dependencies must be mocked.
+ * Setup/Teardown: Proper setup and teardown procedures are required.
+
+VI. Operational Best Practices: Logging, Security, and Performance
+We adhere to best practices in operational areas:
+ * Logging: Consistent logging is enforced.
+ * Error Handling: Robust error handling is mandatory.
+ * Security: We avoid dangerous functions and enforce input validation.
+ * Performance: We prefer list comprehensions and avoid global variables.
+
+VII. Compatibility and Integration: Building for the Future
+We ensure compatibility and streamline our workflow:
+ * Python Version: Our code is compatible with Python 3.9 and above.
+ * CI Integration:
+   * Tests run on every pull request.
+   * Failed tests block merges.
+   * Bug fixes require regression tests.
+
+VIII. Workflow: Collaboration and Continuous Improvement
+We optimize our workflow for efficiency and quality:
+ * Pre-Commit Hooks: We use hooks to run tests and check coverage.
+ * Review Checklist: Code reviews ensure tests are added and passing.
