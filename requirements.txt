@@ -1,2 +1,6 @@
 pytest
 selenium
+mcp
+anthropic
+python-dotenv
+openai
