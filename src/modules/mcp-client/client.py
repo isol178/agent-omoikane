@@ -66,10 +66,10 @@ class MCPClient:
           ]
 
           response = await self.session.list_tools()
-          available_tools = self._get_available_tools(response)
+          available_tools = await self._get_available_tools(response)
 
           # Initial llm API call
-          response = self._api_call(messages, available_tools)
+          response = await self._api_call(messages, available_tools)
 
           # Process response and handle tool calls
           final_text = await self._get_final_text(response, messages, available_tools)
@@ -138,7 +138,7 @@ class MCPClient:
                     tools=available_tools
                )
           elif self.provider == 'openai':
-               response = self.openai.chat.completions.create(
+               response = self.llm.chat.completions.create(
                     model="gpt-4o-mini",
                     messages=messages,
                     tools=available_tools,
@@ -151,9 +151,9 @@ class MCPClient:
 
      async def _get_final_text(self, response, messages, available_tools):
           if self.provider == 'anthropic':
-               return self._get_final_text_claude(response, messages, available_tools)
+               return await self._get_final_text_claude(response, messages, available_tools)
           elif self.provider == 'openai':
-               self._get_final_text_openai(response, messages, available_tools)
+               return await self._get_final_text_openai(response, messages, available_tools)
           else:
                raise ValueError(f"Unknown provider: {self.provider}")
 
@@ -194,11 +194,11 @@ class MCPClient:
                     })
 
                     # Get next response from llm
-                    response = self._api_call(messages, available_tools)
+                    response = await self._api_call(messages, available_tools)
 
                     final_text.append(response.content[0].text)
           
-          final_text = "\n".join(final_text)
+          final_text = "\n\n".join(final_text)
           
           return final_text
      
@@ -237,9 +237,9 @@ class MCPClient:
                          }
                     )
 
-               response = self._api_call(messages, available_tools)
+               response = await self._api_call(messages, available_tools)
           
-          final_text = "\n".join(final_text)
+          final_text = "\n\n".join(final_text)
           return final_text
 
 
