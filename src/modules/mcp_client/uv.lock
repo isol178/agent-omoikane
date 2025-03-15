@@ -226,7 +226,7 @@ wheels = [
 ]
 
 [[package]]
-name = "mcp-client"
+name = "mcp_client"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
