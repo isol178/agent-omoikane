@@ -1,3 +1,5 @@
+import os
+import shutil
 import asyncio
 from typing import Optional
 from contextlib import AsyncExitStack
@@ -26,22 +28,39 @@ class MCPClient:
                raise ValueError(f"Unknown provider: {provider}")
 
 
-     async def connect_to_server(self, server_script_path: str):
-          """Connect to an MCP server
+     async def connect_to_server(self, server_key: str):
+          """Connects to an MCP (Model Context Protocol) server.
+
+          This method establishes a connection to a specified MCP server,
+          reads its configuration from 'mcp_client_config.json',
+          starts the server process, initializes a client session,
+          and lists the available tools provided by the server.
 
           Args:
-               server_script_path: Path to the server script (.py or .js)
-          """
-          is_python = server_script_path.endswith('.py')
-          is_js = server_script_path.endswith('.js')
-          if not (is_python or is_js):
-               raise ValueError("Server script must be a .py or .js file")
+              server_key: The key of the server to connect to, as defined in
+                  'mcp_client_config.json'.
 
-          command = "python" if is_python else "node"
+          Raises:
+              FileNotFoundError: If 'mcp_client_config.json' is not found.
+              KeyError: If the provided `server_key` is not found in the config file.
+              shutil.Error: If the command specified in the config file is not found.
+              Exception: If any error occurs during the connection or initialization process.
+          """
+          config_file_path = os.path.join(os.path.dirname(__file__), "mcp_client_config.json")
+          with open(config_file_path, "r") as f:
+               config = json.load(f)
+
+          if server_key in config.get("mcpServers", {}):
+               server_conf = config["mcpServers"][server_key]
+               # command = shutil.which(server_conf.get("command", "node"))
+               command = server_conf.get("command")
+               args = server_conf.get("args", [])
+               env = server_conf.get("env")
+
           server_params = StdioServerParameters(
                command=command,
-               args=[server_script_path],
-               env=None
+               args=args,
+               env=env
           )
 
           stdio_transport = await self.exit_stack.enter_async_context(stdio_client(server_params))
@@ -246,7 +265,7 @@ class MCPClient:
 
 async def main():
      if len(sys.argv) < 3:
-          print("Usage: python client.py <provider> <path_to_server_script>")
+          print("Usage: python client.py <provider> <server_key>")
           sys.exit(1)
 
      client = MCPClient(sys.argv[1])
