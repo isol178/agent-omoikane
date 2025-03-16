@@ -1,2 +1,7 @@
 pytest
+pytest-asyncio
 selenium
+mcp
+anthropic
+python-dotenv
+openai
