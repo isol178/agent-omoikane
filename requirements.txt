@@ -5,3 +5,4 @@ mcp
 anthropic
 python-dotenv
 openai
+langgraph
