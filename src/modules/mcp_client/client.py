@@ -53,16 +53,17 @@ class MCPClient:
           if server_key in config.get("mcpServers", {}):
                server_conf = config["mcpServers"][server_key]
                # command = shutil.which(server_conf.get("command", "node"))
-               command = server_conf.get("command")
+               command = server_conf.get("command", "node")
                args = server_conf.get("args", [])
                env = server_conf.get("env")
+          else:
+               raise KeyError(f"Server key '{server_key}' not found in config file.")
 
           server_params = StdioServerParameters(
                command=command,
                args=args,
                env=env
           )
-
           stdio_transport = await self.exit_stack.enter_async_context(stdio_client(server_params))
           self.stdio, self.write = stdio_transport
           self.session = await self.exit_stack.enter_async_context(ClientSession(self.stdio, self.write))
